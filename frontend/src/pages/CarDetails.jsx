@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import '../styles/CarDetails.css';
 import Header from '../components/Header';
 import Contactus from '../components/Contactus';
 
 const CarDetails = () => {
-  const { id } = useParams();
   const [car, setCar] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/vehicle/${id}`)
+    console.log('Fetching car details...');
+    fetch('http://localhost:8080/vehicle/4')  // Replace {vehicleId} with the actual vehicle ID
       .then(response => {
+        console.log('Response received:', response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
       .then(data => {
-        setCar(data);
+        console.log('Data received:', data);
+        
+        // Replace placeholder with actual base URL
+        const baseUrl = 'http://localhost:8080/images/';
+        const updatedImages = data.images.map(image => image.replace('{car_buyand_sell.image}', baseUrl));
+        setCar({ ...data, images: updatedImages });
       })
       .catch(error => console.error('Error fetching car details:', error));
-  }, [id]);
+  }, []);
 
   if (!car) {
     return <div>Loading...</div>;
@@ -28,7 +33,7 @@ const CarDetails = () => {
 
   return (
     <div>
-      <Header />
+      <Header/>
       <div className="car-details-container">
         <div className="car-header">
           {car.images && car.images.map((image, index) => (
@@ -60,8 +65,8 @@ const CarDetails = () => {
           </form>
         </div>
       </div>
-      <hr />
-      <Contactus />
+      <hr/>
+      <Contactus/>
     </div>
   );
 };

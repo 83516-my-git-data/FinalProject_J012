@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import '../styles/CarDetails.css';
 import Header from '../components/Header';
 import Contactus from '../components/Contactus';
 
 const CarDetails = () => {
-  const { id } = useParams(); // Get the vehicle ID from the URL
   const [car, setCar] = useState(null);
 
   useEffect(() => {
-    console.log('Fetching car details for ID:', id);
-    fetch(`http://localhost:8080/vehicle/${id}`)  // Use the vehicle ID in the URL
+    console.log('Fetching car details...');
+    fetch('http://localhost:8080/vehicle/4')  // Replace {vehicleId} with the actual vehicle ID
       .then(response => {
         console.log('Response received:', response);
         if (!response.ok) {
@@ -27,7 +25,7 @@ const CarDetails = () => {
         setCar({ ...data, images: updatedImages });
       })
       .catch(error => console.error('Error fetching car details:', error));
-  }, [id]); // Dependency array includes id
+  }, []);
 
   if (!car) {
     return <div>Loading...</div>;

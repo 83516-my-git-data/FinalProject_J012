@@ -1,76 +1,78 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import '../styles/CarDetails.css';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 import Contactus from '../components/Contactus';
+import '../styles/Viewcars.css';
 
-const CarDetails = () => {
-  const { id } = useParams(); // Get the vehicle ID from the URL
-  const [car, setCar] = useState(null);
+const ViewCars = () => {
+  const [cars, setCars] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('Fetching car details for ID:', id);
-    fetch(`http://localhost:8080/vehicle/${id}`)  // Use the vehicle ID in the URL
+    fetch('http://localhost:8080/vehicle')
       .then(response => {
-        console.log('Response received:', response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
-      .then(data => {
-        console.log('Data received:', data);
-        
-        // Replace placeholder with actual base URL
-        const baseUrl = 'http://localhost:8080/images/';
-        const updatedImages = data.images.map(image => image.replace('{car_buyand_sell.image}', baseUrl));
-        setCar({ ...data, images: updatedImages });
-      })
+      .then(data => setCars(data))
       .catch(error => console.error('Error fetching car details:', error));
-  }, [id]); // Dependency array includes id
+  }, []);
 
-  if (!car) {
-    return <div>Loading...</div>;
-  }
+  const handleBuyNow = (id) => {
+    navigate(`/vehicle/${id}`);
+  };
 
   return (
-    <div>
-      <Header/>
-      <div className="car-details-container">
-        <div className="car-header">
-          {car.images && car.images.map((image, index) => (
-            <img key={index} src={image} alt={`${car.model} image ${index + 1}`} className="car-image" />
-          ))}
-          <div className="car-info">
-            <h2>{car.make} {car.model}</h2>
-            <p>Year of Purchase: {new Date(car.yearOfPurchase).toLocaleDateString()}</p>
-            <p>KM Driven: {car.kmDriven} km</p>
-            <p>Mileage: {car.mileage} kmpl</p>
-            <p>Vehicle Number: {car.vehicleNumber}</p>
-            <p>Variant: {car.variant}</p>
-            <p>Ownership: {car.ownership}</p>
-            <p>Location: {car.location}</p>
-            <h3>Asking Price: {car.askingPrice}</h3>
+    <div className="view-cars-page">
+      <Header />
+      <div className="main-content">
+        <div className="sidebar-container">
+          <Sidebar />
+        </div>
+        <div className="car-list-section">
+          <h1>Featured Cars</h1>
+          <div className="car-list">
+            {cars.map(car => (
+              <div key={car.id} className="car-item">
+                <img src={car.images[0]} alt={car.make} />
+                <h2>{car.make}</h2>
+                <p>Rs. {car.askingPrice}</p>
+                <p hidden>{car.id}</p>
+                <button className="buy-button" onClick={() => handleBuyNow(car.id)}>Buy Now</button>
+              </div>
+            ))}
+          </div>
+          <h1>Recently Added Cars</h1>
+          <div className="car-list">
+            {cars.map(car => (
+              <div key={car.id} className="car-item">
+                <img src={car.images[0]} alt={car.make} />
+                <h2>{car.make}</h2>
+                <p>Rs. {car.askingPrice}</p>
+                <button className="buy-button" onClick={() => handleBuyNow(car.id)}>Buy Now</button>
+              </div>
+            ))}
+          </div>
+          <h1>Discounted Cars</h1>
+          <div className="car-list">
+            {cars.map(car => (
+              <div key={car.id} className="car-item">
+                <img src={car.images[0]} alt={car.make} />
+                <h2>{car.make}</h2>
+                <p>Rs. {car.askingPrice}</p>
+                <button className="buy-button" onClick={() => handleBuyNow(car.id)}>Buy Now</button>
+              </div>
+            ))}
+            
           </div>
         </div>
-        <div className="contact-form">
-          <h3>Get Seller Details</h3>
-          <form>
-            <div className="form-group">
-              <label>Name</label>
-              <input type="text" placeholder="Enter Your Full Name" />
-            </div>
-            <div className="form-group">
-              <label>Mobile</label>
-              <input type="text" placeholder="+91 Enter Mobile Number" />
-            </div>
-          </form>
-        </div>
       </div>
-      <hr/>
-      <Contactus/>
+      <Contactus />
     </div>
   );
 };
 
-export default CarDetails;
+export default ViewCars;

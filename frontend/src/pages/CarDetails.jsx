@@ -1,35 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-import '../styles/CarDetails.css'; // Make sure to include the updated C
-
+import '../styles/CarDetails.css';
 import Header from '../components/Header';
 import Contactus from '../components/Contactus';
 
 const CarDetails = () => {
-  const { id } = useParams(); // Get the vehicle ID from the URL
+  const { id } = useParams();
   const [car, setCar] = useState(null);
+  const [showContact, setShowContact] = useState(false); // State to toggle contact details
 
   useEffect(() => {
-    console.log('Fetching car details for ID:', id);
-    fetch(`http://localhost:8080/vehicle/${id}`)  // Use the vehicle ID in the URL
+    fetch(`http://localhost:8080/vehicle/${id}`)
       .then(response => {
-        console.log('Response received:', response);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         return response.json();
       })
       .then(data => {
-        console.log('Data received:', data);
-        
-        // Replace placeholder with actual base URL
         const baseUrl = 'http://localhost:8080/images/';
         const updatedImages = data.images.map(image => image.replace('{car_buyand_sell.image}', baseUrl));
         setCar({ ...data, images: updatedImages });
       })
       .catch(error => console.error('Error fetching car details:', error));
-  }, [id]); // Dependency array includes id
+  }, [id]);
 
   if (!car) {
     return <div>Loading...</div>;
@@ -57,18 +51,29 @@ const CarDetails = () => {
         </div>
 
         <div className="seller-details">
-          <div className="seller-info">
-            <div className="seller-name">
-              <span className="seller-icon">&#128100;</span> {/* Placeholder for a person icon */}
-              {car.user.firstname}
+          <button 
+            className="show-contact-button" 
+            onClick={() => setShowContact(!showContact)}
+          >
+            {showContact ? "Hide Contact Details" : "Show Contact Details"}
+          </button>
+
+          {showContact && (
+            <div className="contact-info">
+              <div className="seller-info">
+                <div className="seller-name">
+                  <span className="seller-icon">Seller Name: </span> {}
+                  {car.user.firstname}
+                </div>
+                <div className="seller-phone">
+                  <a href={`phone:${car.user.mobilenumber}`}>Mobile No: {car.user.mobilenumber}</a>
+                </div>
+              </div>
+              <div className="contact-message">
+                Your contact details have been shared with the seller.
+              </div>
             </div>
-            <div className="seller-phone">
-              <a href={`tel:${car.user.mobilenumber}`}>&#128222; {car.user.mobilenumber}</a>
-            </div>
-          </div>
-          <div className="contact-message">
-            Your contact details have been shared with the seller.
-          </div>
+          )}
         </div>
       </div>
       <hr/>

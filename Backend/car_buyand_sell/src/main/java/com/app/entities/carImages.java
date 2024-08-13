@@ -28,16 +28,15 @@ public class carImages
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
-	private Blob image;
+
+	private String image;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private vehicle vehicle;
 
-	public carImages(Blob image, com.app.entities.vehicle vehicle) {
+	public carImages() {
 		super();
-		this.image = image;
-		//this.vehicle = vehicle;
 	}
+
 }

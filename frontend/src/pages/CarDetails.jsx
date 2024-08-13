@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import '../styles/CarDetails.css'; // Make sure to include the updated CSS
+
+import '../styles/CarDetails.css'; // Make sure to include the updated C
+
 import Header from '../components/Header';
 import Contactus from '../components/Contactus';
 

@@ -9,6 +9,7 @@ import LandingPage from "./pages/Landingpage";
 import AddCarForm from './pages/AddCarForm';
 import CarDetails from './pages/CarDetails';
 import ViewCars from "./pages/Viewcars";
+import Admin from "./pages/Admin";
 
 const sampleCar = {
   image: 'https://example.com/car-image.jpg', // replace with actual image URL
@@ -36,7 +37,7 @@ function App() {
   return (
     <div className='container'>
       <Routes>
-        <Route path="/" element={<div>Welcome to car buy sell</div>} />
+        {/* <Route path="/" element={<>Welcome to car buy sell</} /> */}
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

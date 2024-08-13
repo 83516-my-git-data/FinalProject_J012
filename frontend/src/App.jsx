@@ -36,7 +36,7 @@ function App() {
   return (
     <div className='container'>
       <Routes>
-        <Route path="/" element={<div>Welcome to car buy sell</div>} />
+        {/* <Route path="/" element={<>Welcome to car buy sell</} /> */}
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

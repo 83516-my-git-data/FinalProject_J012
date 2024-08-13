@@ -1,8 +1,5 @@
+
 package com.app.dto;
-
-import java.sql.Date;
-
-import javax.persistence.Column;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,39 +10,16 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class addvehicleReqdto 
-{
-	private Long userid;
-
-	private String make;
-	
-	
-	private String model;
-	
-	
-	//private String yearofpurchase;
-	
-	private Date yearofpurchase;
-	
-	
-	private Float kmdriven;
-	
-	
-	private Float mileage;
-	
-	
-	private String vehicleNumber;
-	
-	
-	private String varient;
-	
-	
-	private Integer ownership;
-	
-	
-	private String location;
-	
-
-	private Float askingPrice;
-
+public class addvehicleReqdto {
+    private Long userid;
+    private String make;
+    private String model;
+    private String yearofpurchase; // Change to String for compatibility with form data
+    private Float kmdriven;
+    private Float mileage;
+    private String vehicleNumber;
+    private String varient;
+    private Integer ownership;
+    private String location;
+    private Float askingPrice;
 }

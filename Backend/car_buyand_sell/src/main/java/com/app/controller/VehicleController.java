@@ -119,4 +119,32 @@ public class VehicleController
 		}
 		
 	}
+	
+	 @GetMapping("/{vehicleId}")
+	    public ResponseEntity<carDetailsDto> getCarDetails(@PathVariable Long vehicleId) {
+	        vehicle vehicle = vd.findById(vehicleId)
+	                .orElseThrow(() -> new ResourceNotFoundException("Invalid vehicle ID"));
+
+	        List<String> imageUrls = cid.findByVehicleId(vehicleId)
+	                .stream()
+	                .map(carImage -> baseUrl + carImage.getImage())
+	                .collect(Collectors.toList());
+
+
+	        carDetailsDto carDetailsDto = new carDetailsDto();
+	        carDetailsDto.setUserId(vehicle.getUser().getUserid());
+	        carDetailsDto.setMake(vehicle.getMake());
+	        carDetailsDto.setModel(vehicle.getModel());
+	        carDetailsDto.setYearOfPurchase(vehicle.getYearofpurchase().toString());
+	        carDetailsDto.setKmDriven(vehicle.getKmdriven());
+	        carDetailsDto.setMileage(vehicle.getMileage());
+	        carDetailsDto.setVehicleNumber(vehicle.getVehicleNumber());
+	        carDetailsDto.setVariant(vehicle.getVarient());
+	        carDetailsDto.setOwnership(vehicle.getOwnership());
+	        carDetailsDto.setLocation(vehicle.getLocation());
+	        carDetailsDto.setAskingPrice(vehicle.getAskingPrice());
+	        carDetailsDto.setImages(imageUrls);
+
+	        return ResponseEntity.ok(carDetailsDto);
+	    }
 }

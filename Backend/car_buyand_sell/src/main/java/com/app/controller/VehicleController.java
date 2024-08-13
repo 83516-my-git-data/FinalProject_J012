@@ -82,6 +82,41 @@ public class VehicleController
 		
 	}
 	
+	@PostMapping("/add/all")
+	public ResponseEntity<?> addvehicleandImage(@RequestBody addvehicleReqdto dto , @RequestParam("image") MultipartFile image)
+	{
+		try
+		{
+			return ResponseEntity.status(HttpStatus.CREATED).body(vehicleservice.addvehicleandImage(dto, image));
+		}
+		catch(RuntimeException e)
+		{
+			System.out.println(e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
+		}
+		//return null;
+		
+	}
 	
-	
+	@PostMapping("/addimage/{vehicleid}")
+	public ResponseEntity<?> uploadimage(@RequestParam("image") MultipartFile image ,
+			@PathVariable Long vehicleid)
+	{
+		vehicle v=vd.findById(vehicleid).orElseThrow(()-> new ResourceNotFoundException("invalid vehicle id"));
+		String imagename;
+		try {
+			imagename = carimageservice.uploadImage(path, image);
+			carImages ci=new carImages();
+			ci.setVehicle(v);
+			ci.setImage(imagename);
+			cid.save(ci);
+			return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Image uploaded "));
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+		
+	}
 }

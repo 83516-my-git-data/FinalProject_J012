@@ -20,5 +20,6 @@ public interface VehicleService
 	String deleteVehicle(Long vehicleId);
 	
 	ApiResponse addvehicleandImage(addvehicleReqdto dto,MultipartFile image);
+	List<vehicle> getFilteredAndSortedVehicles(String model, String sortBy, String sortOrder);
 
 }

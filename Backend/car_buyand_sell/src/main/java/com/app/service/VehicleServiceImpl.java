@@ -93,12 +93,14 @@ public class VehicleServiceImpl implements VehicleService
 		v.setOwnership(dto.getOwnership());
 		v.setVarient(dto.getVarient());
 		v.setVehicleNumber(dto.getVehicleNumber());
-		v.setYearofpurchase(dto.getYearofpurchase());
+		v.setYearofpurchase(java.sql.Date.valueOf(dto.getYearofpurchase()));
 		
 		vehicledao.save(v);
 		// TODO Auto-generated method stub
 		return new ApiResponse("Car added succesfully");
 	}
+
+	
 
 	@Override
 	public List<getAllCarsDto> getAllVehicles() {
@@ -166,45 +168,44 @@ public class VehicleServiceImpl implements VehicleService
 	
 	@Override
 	public ApiResponse addvehicleandImage(addvehicleReqdto dto, MultipartFile image) {
-		
- user user=userdao.findById(dto.getUserid()).orElseThrow(()-> new ResourceNotFoundException("user not found "));
-		
-	
-		vehicle v= new vehicle();
-		v.setAskingPrice(dto.getAskingPrice());
-		v.setKmdriven(dto.getKmdriven());
-		v.setLocation(dto.getLocation());
-		v.setMake(dto.getMake());
-		v.setUser(user);
-		v.setMileage(dto.getMileage());
-		v.setModel(dto.getModel());
-		v.setOwnership(dto.getOwnership());
-		v.setVarient(dto.getVarient());
-		v.setVehicleNumber(dto.getVehicleNumber());
-		v.setYearofpurchase(dto.getYearofpurchase());
-		
-		vehicle v2=vehicledao.save(v);
-		
-	
-		String imagename;
-		try {
-			imagename = carimageservice.uploadImage(path, image);
-			carImages ci=new carImages();
-			ci.setVehicle(v2);
-			ci.setImage(imagename);
-			carimagedao.save(ci);
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
-		// TODO Auto-generated method stub
-		return new ApiResponse("Car added succesfully");
-		//return null;
+	    user user = userdao.findById(dto.getUserid()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+	    vehicle v = new vehicle();
+	    v.setAskingPrice(dto.getAskingPrice());
+	    v.setKmdriven(dto.getKmdriven());
+	    v.setLocation(dto.getLocation());
+	    v.setMake(dto.getMake());
+	    v.setUser(user);
+	    v.setMileage(dto.getMileage());
+	    v.setModel(dto.getModel());
+	    v.setOwnership(dto.getOwnership());
+	    v.setVarient(dto.getVarient());
+	    v.setVehicleNumber(dto.getVehicleNumber());
+
+	    
+	    try {
+	        v.setYearofpurchase(java.sql.Date.valueOf(dto.getYearofpurchase()));
+	    } catch (IllegalArgumentException e) {
+	        throw new RuntimeException("Invalid date format for year of purchase. Please use yyyy-mm-dd format.");
+	    }
+
+	    vehicle v2 = vehicledao.save(v);
+
+	    String imagename;
+	    try {
+	        imagename = carimageservice.uploadImage(path, image);
+	        carImages ci = new carImages();
+	        ci.setVehicle(v2);
+	        ci.setImage(imagename);
+	        carimagedao.save(ci);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Error while uploading image");
+	    }
+
+	    return new ApiResponse("Car added successfully");
 	}
-	
+
 
 
 	

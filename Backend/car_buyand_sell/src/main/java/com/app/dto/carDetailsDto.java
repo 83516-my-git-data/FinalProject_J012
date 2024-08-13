@@ -2,15 +2,15 @@ package com.app.dto;
 
 import java.util.List;
 
+import com.app.entities.user;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-public class carDetailsDto
-{
+public class carDetailsDto {
+	
 	private Long userId;
     private String make;
     private String model;
@@ -23,6 +23,6 @@ public class carDetailsDto
     private String location;
     private float askingPrice;
     private List<String> images;
-
+    private user user;
 
 }

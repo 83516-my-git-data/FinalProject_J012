@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +40,7 @@ import com.app.entities.carImages;
 import com.app.entities.vehicle;
 import com.app.service.VehicleService;
 import com.app.service.carImageService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 //import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -82,20 +84,36 @@ public class VehicleController
 		
 	}
 	
+//	@PostMapping("/add/all")
+//	public ResponseEntity<?> addvehicleandImage(@RequestBody addvehicleReqdto dto , @RequestParam("image") MultipartFile image)
+//	{
+//		try
+//		{
+//			return ResponseEntity.status(HttpStatus.CREATED).body(vehicleservice.addvehicleandImage(dto, image));
+//		}
+//		catch(RuntimeException e)
+//		{
+//			System.out.println(e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
+//		}
+//		//return null;
+//		
+//	}
+	
 	@PostMapping("/add/all")
-	public ResponseEntity<?> addvehicleandImage(@RequestBody addvehicleReqdto dto , @RequestParam("image") MultipartFile image)
-	{
-		try
-		{
-			return ResponseEntity.status(HttpStatus.CREATED).body(vehicleservice.addvehicleandImage(dto, image));
-		}
-		catch(RuntimeException e)
-		{
-			System.out.println(e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
-		}
-		//return null;
-		
+	public ResponseEntity<?> addVehicleAndImage(
+	    @RequestPart("dto") String dtoJson,
+	    @RequestPart("image") MultipartFile image) {
+	    
+	    try {
+	        ObjectMapper mapper = new ObjectMapper();
+	        addvehicleReqdto dto = mapper.readValue(dtoJson, addvehicleReqdto.class);
+	        
+	        ApiResponse response = vehicleservice.addvehicleandImage(dto, image);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage()));
+	    }
 	}
 	
 	@PostMapping("/addimage/{vehicleid}")

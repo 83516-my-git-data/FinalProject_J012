@@ -162,15 +162,11 @@ public class VehicleController
 	        carDetailsDto.setLocation(vehicle.getLocation());
 	        carDetailsDto.setAskingPrice(vehicle.getAskingPrice());
 	        carDetailsDto.setImages(imageUrls);
+	        carDetailsDto.setUser(vehicle.getUser());
 
 	        return ResponseEntity.ok(carDetailsDto);
 	    }
-	    @GetMapping
-	    public ResponseEntity<List<getAllCarsDto>> getAllCarDetails()
-	    {
-	    	List<getAllCarsDto>CarDetailsList=vehicleservice.getAllVehicles();
-	    	return ResponseEntity.ok(CarDetailsList);
-	    }
+	 
 	    
 	    @DeleteMapping("/delete/Image/{vehicleId}")
 	    public ResponseEntity<?> deleteCarImage(@PathVariable Long vehicleId)
@@ -197,4 +193,12 @@ public class VehicleController
 	    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	    	}
 	    }
+	    
+	    @GetMapping
+	    public ResponseEntity<List<getAllCarsDto>> getAllCarDetails()
+	    {
+	    	List<getAllCarsDto>CarDetailsList=vehicleservice.getAllVehicles();
+	    	return ResponseEntity.ok(CarDetailsList);
+	    }
+	    
 }

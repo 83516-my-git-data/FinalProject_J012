@@ -1,74 +1,69 @@
 package com.app.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.customexceptions.ResourceNotFoundException;
-import com.app.dao.carImagesdao;
-import com.app.dao.vehicledao;
-import com.app.dto.ApiResponse;
 import com.app.dto.addBlogsDto;
-import com.app.entities.carImages;
-import com.app.entities.vehicle;
+import com.app.entities.blogs;
 import com.app.service.blogsService;
-import com.app.service.carImageService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/blogs")
 @CrossOrigin(origins = "http://localhost:3000")
-public class BlogsController 
-{
+public class BlogsController {
 
 	@Autowired
-	carImageService carimageservice;
-	
-	@Autowired
-	vehicledao vd;
-	
-	@Autowired
-	carImagesdao cid;
+	private blogsService blogsService;
 
-	@Autowired
-	blogsService blogsService;
-	
-	
-	@Value("blogs")
-	private String path;
-	
+	// Endpoint to add a new blog
 	@PostMapping("/add")
-	public ResponseEntity<?> uploadimage(@RequestParam("image") MultipartFile image ,addBlogsDto dto
-		)
-	{
-		
-		String imagename;
-		try {
-			imagename = carimageservice.uploadImage(path, image);
-			
-			return ResponseEntity.status(HttpStatus.CREATED).body(blogsService.addBlog(dto ,imagename));
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
-		
+	public ResponseEntity<String> addBlog(@RequestBody addBlogsDto dto) {
+		String response = blogsService.addBlog(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
-	
+
+	// Endpoint to update an existing blog
+	@PutMapping("/update/{blogId}")
+	public ResponseEntity<String> updateBlog(@PathVariable Long blogId, @RequestBody addBlogsDto dto) {
+		try {
+			String response = blogsService.updateBlog(blogId, dto);
+			return ResponseEntity.ok(response);
+		} catch (ResourceNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+
+	// Endpoint to delete a blog
 	@DeleteMapping("/delete/{blogId}")
-	public void deleteBlog(@PathVariable Long blogId)
-	{
-		blogsService.deleteBlog(blogId);
+	public ResponseEntity<String> deleteBlog(@PathVariable Long blogId) {
+		try {
+			blogsService.deleteBlog(blogId);
+			return ResponseEntity.ok("Blog deleted successfully.");
+		} catch (ResourceNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+	}
+
+	// Endpoint to get a list of all blogs
+	@GetMapping("/all")
+	public ResponseEntity<List<blogs>> getAllBlogs() {
+		List<blogs> blogsList = blogsService.getAllBlogs();
+		return ResponseEntity.ok(blogsList);
+	}
+
+	// Endpoint to get a blog by its ID
+	@GetMapping("/{blogId}")
+	public ResponseEntity<blogs> getBlogById(@PathVariable Long blogId) {
+		try {
+			blogs blog = blogsService.getBlogById(blogId);
+			return ResponseEntity.ok(blog);
+		} catch (ResourceNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 }

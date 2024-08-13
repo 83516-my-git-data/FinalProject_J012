@@ -8,6 +8,7 @@ import com.app.dto.ApiResponse;
 import com.app.dto.addvehicleReqdto;
 import com.app.dto.carDetailsDto;
 import com.app.dto.getAllCarsDto;
+import com.app.entities.vehicle;
 
 public interface VehicleService 
 {

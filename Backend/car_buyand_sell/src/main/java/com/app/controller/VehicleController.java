@@ -147,4 +147,36 @@ public class VehicleController
 
 	        return ResponseEntity.ok(carDetailsDto);
 	    }
+	    @GetMapping
+	    public ResponseEntity<List<getAllCarsDto>> getAllCarDetails()
+	    {
+	    	List<getAllCarsDto>CarDetailsList=vehicleservice.getAllVehicles();
+	    	return ResponseEntity.ok(CarDetailsList);
+	    }
+	    
+	    @DeleteMapping("/delete/Image/{vehicleId}")
+	    public ResponseEntity<?> deleteCarImage(@PathVariable Long vehicleId)
+	    {
+	    	try
+	    	{
+	    		return ResponseEntity.status(HttpStatus.OK).body(vehicleservice.deleteAllImages(vehicleId));
+	    	}
+	    	catch(RuntimeException e)
+	    	{
+	    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	    	}
+	    }
+	    
+	    @DeleteMapping("/{vehicleId}")
+	    public ResponseEntity<?> deleteVehicle(@PathVariable Long vehicleId)
+	    {
+	    	try
+	    	{
+	    		return ResponseEntity.status(HttpStatus.OK).body(vehicleservice.deleteVehicle(vehicleId));
+	    	}
+	    	catch(RuntimeException e)
+	    	{
+	    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	    	}
+	    }
 }

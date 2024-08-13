@@ -201,4 +201,30 @@ public class VehicleController
 	    	return ResponseEntity.ok(CarDetailsList);
 	    }
 	    
+	    @GetMapping("/filter")
+	    public ResponseEntity<List<getAllCarsDto>> getFilteredAndSortedVehicles(
+	        @RequestParam(required = false) String model,
+	        @RequestParam(defaultValue = "model") String sortBy,
+	        @RequestParam(defaultValue = "asc") String sortOrder
+	    ) {
+	        List<vehicle> vehicles = vehicleservice.getFilteredAndSortedVehicles(model, sortBy, sortOrder);
+	        
+	        // Map vehicles to DTOs
+	        List<getAllCarsDto> carDetailsList = vehicles.stream().map(v -> {
+	            List<String> imageUrls = cid.findByVehicleId(v.getId()).stream()
+	                .map(carImage -> baseUrl + carImage.getImage())
+	                .collect(Collectors.toList());
+
+	            getAllCarsDto dto = new getAllCarsDto();
+	            dto.setId(v.getId());
+	            dto.setAskingPrice(v.getAskingPrice());
+	            dto.setMake(v.getMake());
+	            dto.setModel(v.getModel());
+	            dto.setImages(imageUrls);  // Ensure this is set
+	            return dto;
+	        }).collect(Collectors.toList());
+
+	        return ResponseEntity.ok(carDetailsList);
+	    }
+	    
 }

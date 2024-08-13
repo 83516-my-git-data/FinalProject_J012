@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -206,6 +207,16 @@ public class VehicleServiceImpl implements VehicleService
 	    return new ApiResponse("Car added successfully");
 	}
 
+	@Override
+	public List<vehicle> getFilteredAndSortedVehicles(String model, String sortBy, String sortOrder) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortBy);
+
+        if (model != null && !model.isEmpty()) {
+            return vehicledao.findByModelContainingIgnoreCase(model, sort);
+        } else {
+            return vehicledao.findAll(sort);
+        }
+    }
 
 
 	

@@ -13,8 +13,10 @@ public class getAllCarsDto
 {
 
 	//private Long userId;
+	private Long id;
     private String make;
     
     private float askingPrice;
     private List<String> images;
+    private String model;
 }

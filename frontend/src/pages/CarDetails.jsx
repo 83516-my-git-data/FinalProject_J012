@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import '../styles/CarDetails.css';
+
+import '../styles/CarDetails.css'; // Make sure to include the updated C
+
 import Header from '../components/Header';
 import Contactus from '../components/Contactus';
 
@@ -50,21 +52,23 @@ const CarDetails = () => {
             <p>Variant: {car.variant}</p>
             <p>Ownership: {car.ownership}</p>
             <p>Location: {car.location}</p>
-            <h3>Asking Price: {car.askingPrice}</h3>
+            <h3>Asking Price: Rs. {car.askingPrice}</h3>
           </div>
         </div>
-        <div className="contact-form">
-          <h3>Get Seller Details</h3>
-          <form>
-            <div className="form-group">
-              <label>Name</label>
-              <input type="text" placeholder="Enter Your Full Name" />
+
+        <div className="seller-details">
+          <div className="seller-info">
+            <div className="seller-name">
+              <span className="seller-icon">&#128100;</span> {/* Placeholder for a person icon */}
+              {car.user.firstname}
             </div>
-            <div className="form-group">
-              <label>Mobile</label>
-              <input type="text" placeholder="+91 Enter Mobile Number" />
+            <div className="seller-phone">
+              <a href={`tel:${car.user.mobilenumber}`}>&#128222; {car.user.mobilenumber}</a>
             </div>
-          </form>
+          </div>
+          <div className="contact-message">
+            Your contact details have been shared with the seller.
+          </div>
         </div>
       </div>
       <hr/>

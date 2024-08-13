@@ -9,6 +9,7 @@ import LandingPage from "./pages/Landingpage";
 import AddCarForm from './pages/AddCarForm';
 import CarDetails from './pages/CarDetails';
 import ViewCars from "./pages/Viewcars";
+import Admin from "./pages/Admin";
 
 const sampleCar = {
   image: 'https://example.com/car-image.jpg', // replace with actual image URL

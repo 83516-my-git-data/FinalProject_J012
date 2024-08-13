@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/CarDetails.css';
+import { useParams } from 'react-router-dom';
+import '../styles/CarDetails.css'; // Make sure to include the updated CSS
 import Header from '../components/Header';
 import Contactus from '../components/Contactus';
 
 const CarDetails = () => {
+  const { id } = useParams(); // Get the vehicle ID from the URL
   const [car, setCar] = useState(null);
 
   useEffect(() => {
-    console.log('Fetching car details...');
-    fetch('http://localhost:8080/vehicle/4')  // Replace {vehicleId} with the actual vehicle ID
+    console.log('Fetching car details for ID:', id);
+    fetch(`http://localhost:8080/vehicle/${id}`)  // Use the vehicle ID in the URL
       .then(response => {
         console.log('Response received:', response);
         if (!response.ok) {
@@ -25,7 +27,7 @@ const CarDetails = () => {
         setCar({ ...data, images: updatedImages });
       })
       .catch(error => console.error('Error fetching car details:', error));
-  }, []);
+  }, [id]); // Dependency array includes id
 
   if (!car) {
     return <div>Loading...</div>;
@@ -48,21 +50,23 @@ const CarDetails = () => {
             <p>Variant: {car.variant}</p>
             <p>Ownership: {car.ownership}</p>
             <p>Location: {car.location}</p>
-            <h3>Asking Price: {car.askingPrice}</h3>
+            <h3>Asking Price: Rs. {car.askingPrice}</h3>
           </div>
         </div>
-        <div className="contact-form">
-          <h3>Get Seller Details</h3>
-          <form>
-            <div className="form-group">
-              <label>Name</label>
-              <input type="text" placeholder="Enter Your Full Name" />
+
+        <div className="seller-details">
+          <div className="seller-info">
+            <div className="seller-name">
+              <span className="seller-icon">&#128100;</span> {/* Placeholder for a person icon */}
+              {car.user.firstname}
             </div>
-            <div className="form-group">
-              <label>Mobile</label>
-              <input type="text" placeholder="+91 Enter Mobile Number" />
+            <div className="seller-phone">
+              <a href={`tel:${car.user.mobilenumber}`}>&#128222; {car.user.mobilenumber}</a>
             </div>
-          </form>
+          </div>
+          <div className="contact-message">
+            Your contact details have been shared with the seller.
+          </div>
         </div>
       </div>
       <hr/>

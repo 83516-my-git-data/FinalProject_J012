@@ -7,11 +7,13 @@ import '../styles/Auth.css';
 import { FaUser, FaLock } from 'react-icons/fa';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
+import { useAuth } from '../components/Authcontext'; // Import your Auth context
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const { login } = useAuth(); // Use your Auth context
 
     const validate = () => {
         const newErrors = {};
@@ -37,7 +39,8 @@ const Login = () => {
         if (validate()) {
             try {
                 const response = await axios.post('http://localhost:8080/api/users/login', formData);
-                console.log('Login successful:', response.data);
+                const { role } = response.data;
+
                 Toastify({
                     text: "Login successful",
                     duration: 3000,
@@ -45,7 +48,13 @@ const Login = () => {
                     position: "right",
                     backgroundColor: "#4CAF50"
                 }).showToast();
-                navigate('/');
+
+                login(role); // Update AuthContext with user role
+                if (role === 'ADMIN') {
+                    navigate('/admin');
+                } else {
+                    navigate('/homepage');
+                }
             } catch (error) {
                 console.error('Login failed:', error.response?.data || error.message);
                 Toastify({

@@ -1,48 +1,56 @@
 .header {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
-    transition: background-color 0.3s ease;
-  }
-  
-  .header-icon {
-    color: #343a40;
-    font-size: 2rem;
-    margin-right: 10px;
-    transition: color 0.3s ease;
-  }
-  
-  .header-text {
-    font-family: 'Arial, sans-serif';
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #343a40;
-    transition: color 0.3s ease;
-  }
-  
-  .header:hover .header-icon,
-  .header:hover .header-text {
-    color: #007bff;
-  }
-  
-  .header-links {
-    margin-left: auto;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .header-link {
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #343a40;
-    transition: color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .header-link:hover {
-    color: #007bff;
-    transform: scale(1.1);
-  }
-  
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  transition: background-color 0.3s ease;
+}
+
+.header-icon {
+  width: 50px; /* Original width */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px;
+}
+
+.header-text {
+  font-family: 'Arial, sans-serif';
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #343a40;
+  transition: color 0.3s ease;
+}
+
+.header:hover .header-icon,
+.header:hover .header-text {
+  color: #007bff;
+}
+
+.header-links {
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
+}
+
+.header-link {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #343a40;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.header-link:hover {
+  color: #007bff;
+  transform: scale(1.1);
+}
+
+.logout-button {
+  border: none; /* Remove default button border */
+  background: none; /* Remove default button background */
+}
+
+.logout-button:hover {
+  background-color: #555;
+  cursor: pointer;
+}

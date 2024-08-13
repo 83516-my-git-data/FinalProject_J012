@@ -1,4 +1,8 @@
 dashboard.feed.springio.migration=true
 eclipse.preferences.version=1
+<<<<<<< HEAD
 org.springsource.ide.eclipse.dashboard.uidashboard.feed.last_update=1723569040034
+=======
+org.springsource.ide.eclipse.dashboard.uidashboard.feed.last_update=1723560222723
+>>>>>>> 977fc41bca86f4bad0f64f56d09d5255b97bc5f5
 org.springsource.ide.eclipse.dashboard.uidashboard.startup=false

@@ -75,7 +75,10 @@
 			<!-- <version>3.14.0</version> -->
 		</dependency>
 		
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 977fc41bca86f4bad0f64f56d09d5255b97bc5f5
 		<!-- Adding spring security support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -110,6 +113,10 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 977fc41bca86f4bad0f64f56d09d5255b97bc5f5
 	</dependencies>
 
 	<build>

@@ -58,7 +58,10 @@ public class SecurityConfig {
 				"/v*/api-doc*/**","/swagger-ui/**").permitAll()
 		// only required for JS clnts (react / angular) : for the pre flight requests
 		.antMatchers(HttpMethod.OPTIONS).permitAll()
+<<<<<<< HEAD
 		.antMatchers("/api/users/delete/**").hasRole("ADMIN")
+=======
+>>>>>>> 977fc41bca86f4bad0f64f56d09d5255b97bc5f5
 		.anyRequest().authenticated()
 		.and()
 		//to tell spring sec : not to use HttpSession to store user's auth details
@@ -78,9 +81,13 @@ public class SecurityConfig {
 		return config.getAuthenticationManager();
 	}
 	
+<<<<<<< HEAD
 	
 	////Testing purpose on swagger
 	
+=======
+	////Testing purpose on swagger 
+>>>>>>> 977fc41bca86f4bad0f64f56d09d5255b97bc5f5
 	
 	private SecurityScheme createAPIKeyScheme() {
 	    return new SecurityScheme().type(SecurityScheme.Type.HTTP)
@@ -101,4 +108,8 @@ public class SecurityConfig {
 	            .license(new io.swagger.v3.oas.models.info.License().name("License of API")
 	                .url("API license URL")));
 	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 977fc41bca86f4bad0f64f56d09d5255b97bc5f5
 }

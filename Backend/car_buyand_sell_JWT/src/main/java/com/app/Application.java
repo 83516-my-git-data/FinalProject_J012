@@ -15,6 +15,7 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
+<<<<<<< HEAD
 //
 //	@Bean // equivalent to <bean id ..../> in xml file
 //	public ModelMapper mapper() {
@@ -23,6 +24,10 @@ public class Application {
 //		return modelMapper;
 //	}
 	  @Bean
+=======
+
+	@Bean
+>>>>>>> 977fc41bca86f4bad0f64f56d09d5255b97bc5f5
 	    public PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder();
 	    }

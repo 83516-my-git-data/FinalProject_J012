@@ -77,6 +77,26 @@ public class SecurityConfig {
 		return config.getAuthenticationManager();
 	}
 	
+	////Testing purpose on swagger 
 	
+	private SecurityScheme createAPIKeyScheme() {
+	    return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+	        .bearerFormat("JWT")
+	        .scheme("bearer");
+	}
+	
+	@Bean
+	public OpenAPI openAPI() {
+	    return new OpenAPI().addSecurityItem(new SecurityRequirement().
+	            addList("Bearer Authentication"))
+	        .components(new Components().addSecuritySchemes
+	            ("Bearer Authentication", createAPIKeyScheme()))
+	        .info(new io.swagger.v3.oas.models.info.Info().title("My REST API")
+	            .description("Some custom description of API.")
+	            .version("1.0").contact(new io.swagger.v3.oas.models.info.Contact().name("Sallo Szrajbman")
+	                .email( "www.baeldung.com").url("salloszraj@gmail.com"))
+	            .license(new io.swagger.v3.oas.models.info.License().name("License of API")
+	                .url("API license URL")));
+	}
 	
 }
